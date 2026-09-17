@@ -1,7 +1,46 @@
-# See Infracost output here:
-# https://github.com/dmzopi/finops/pull/1
-
 # Google Kubernetes Engine (GKE) Cluster Terraform module
+
+## Cost Estimation (Infracost)
+
+This repository integrates **Infracost** to track cloud infrastructure costs and carbon footprint:
+
+- **Integration**: Installed as a GitHub App ([Installed GitHub Apps settings](https://github.com/dmzopi/finops/settings/installations), see [configuration screenshot](infracost_config.png)).
+- **Automated PR Reviews**: On every pull request, Infracost automatically calculates cost diffs against the base branch and posts a detailed breakdown comment directly to the PR (example: [Pull Request #1](https://github.com/dmzopi/finops/pull/1)).
+- **Local CLI Commands**:
+  ```bash
+  # --- Scanning ---
+  # Scan current directory for costs, policies, and carbon impact
+  infracost scan
+
+  # Scan with a specific currency (e.g. EUR, GBP) or output as JSON
+  infracost scan --currency EUR
+  infracost scan --json
+
+  # --- Inspecting Results ---
+  # Show summary (monthly cost, resources, policy checks)
+  infracost inspect --summary
+
+  # List resources sorted by highest monthly cost
+  infracost inspect --group-by resource
+
+  # Show only the top 5 most expensive resources
+  infracost inspect --top 5
+
+  # Group costs by resource type or file
+  infracost inspect --group-by type
+  infracost inspect --group-by file
+
+  # --- FinOps Recommendations & Savings ---
+  # Show total potential monthly savings across all FinOps recommendations
+  infracost inspect --total-savings
+
+  # List top 5 FinOps savings opportunities
+  infracost inspect --top-savings 5 --fields address,monthly_savings,policy
+
+  # --- Diagnostics & Troubleshooting ---
+  infracost doctor
+  ```
+
 
 This module deploys a Kubernetes cluster on Google Cloud Platform (GCP) using the Google Kubernetes Engine (GKE) service. The GKE cluster is provisioned with a single node pool, and it comes with a generated Kubernetes certs credentials.
 
